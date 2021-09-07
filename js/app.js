@@ -19,8 +19,26 @@ App = {
         petsRow.append(petTemplate.html());
       }
     });
-
-    return await App.initWeb3();
+    swal({
+      title: "Warning:",
+      text: "This website is meant to run on the Ropsten Testnet for demonstration purposes only. Please do not send any real value to anything on this website.",
+      buttons: [true, "Connect Web3"],
+      dangerMode: true,
+      icon: "warning",
+    }).then( async (answer) => {
+      if(!answer) {
+        swal({
+          title: "You have chosen not to connect Web3",
+          text: "Features will not work as intended. \n Note: If you have already connected Web3, this has NOT disconnected your Web3 client.",
+          icon: "error",
+        })
+        return;
+      }
+      else {
+        return await App.initWeb3();
+      }
+    });
+    return;
   },
 
   initWeb3: async function() {
