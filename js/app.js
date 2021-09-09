@@ -4,10 +4,25 @@ App = {
   
   init: async function() {
     // Load pets.
-    $.getJSON('../pets.json', function(data) {
+    $.getJSON('../pets.json')
+    .done( function(data) {
+      var petsRow = $('#petsRow');
+      var petTemplate = $('#petTemplate');     
+      for (i = 0; i < data.length; i ++) {
+        petTemplate.find('.panel-title').text(data[i].name);
+        petTemplate.find('img').attr('src', data[i].picture);
+        petTemplate.find('.pet-breed').text(data[i].breed);
+        petTemplate.find('.pet-age').text(data[i].age);
+        petTemplate.find('.pet-location').text(data[i].location);
+        petTemplate.find('.btn-adopt').attr('data-id', data[i].id);
+
+        petsRow.append(petTemplate.html());
+      }
+    })
+    .fail(function() {
       var petsRow = $('#petsRow');
       var petTemplate = $('#petTemplate');
-      var pets = data ? data : [
+      var data = [
         {
           "id": 0,
           "name": "Frieda",
@@ -136,9 +151,8 @@ App = {
           "breed": "Golden Retriever",
           "location": "Dawn, Wisconsin"
         }
-      ];      
-
-      for (i = 0; i < pets.length; i ++) {
+      ];           
+      for (i = 0; i < data.length; i ++) {
         petTemplate.find('.panel-title').text(data[i].name);
         petTemplate.find('img').attr('src', data[i].picture);
         petTemplate.find('.pet-breed').text(data[i].breed);
